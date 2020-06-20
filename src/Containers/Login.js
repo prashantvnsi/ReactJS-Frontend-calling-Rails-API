@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import {Redirect} from 'react-router-dom';
-import history from './../history';
-
+import { Redirect } from 'react-router-dom';
+import { createBrowserHistory } from 'history'
+const history = createBrowserHistory({forceRefresh:true});
 export default class Login extends Component {
 
   constructor (props) {
     super(props);
-    /*this.state = {
-      email: '',
-      password: ''
-      }*/
+    this.state = {
+      hits: ''
+    }
       this.handleSubmit = this.handleSubmit.bind(this);
       this.email = React.createRef();
       this.password = React.createRef()
@@ -21,27 +20,7 @@ export default class Login extends Component {
   }*/
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.email.current.value + this.password.current.value);
     event.preventDefault();
-    //const email = event.state.email
-    //const password = event.state.password
-
-    /*fetch('https://sgi-rails.herokuapp.com/user_token', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          auth:{
-          email: email,
-          password: password
-          }
-        })
-    }).then(res => res.json())
-    .then(json => 
-         console.log(json.token),
-         //this.context.history.push('/homepage')
-    ).catch(error =>
-         console.log(error.response)
-    )*/
   
     fetch("https://sgi-rails.herokuapp.com/user_token", {
       method: "POST",
@@ -56,21 +35,18 @@ export default class Login extends Component {
         }
       })
     })
-      .then(res => {
-        if (res.ok) {
-          history.push('/homepage')
-          //console.log(res.json())
-        } else {
-          throw Error(res.statusText);
-        }
-      })
-      .then(json => {
-        this.setState({
-          isLoaded: true,
-          token: json
-        });
-      })
-      .catch(error => console.error(error));
+      
+      .then((response) => response.json())
+		  .then((responseJson) =>{
+            console.log("Res:" + JSON.stringify(responseJson));
+            //localStorage.setItem('id_token', user.id_token)
+            //localStorage.setItem('id_token', user.access_token)
+            
+            return history.push('/homepage')
+		})
+		.catch((error)=>{
+			console.error(error);
+		});
       
   }
     render() {

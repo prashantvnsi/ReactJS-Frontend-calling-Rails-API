@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import {Redirect} from 'react-router-dom';
 import Login from "./Containers/Login";
 import SignUp from "./Containers/Signup";
 import Homepage from "./Containers/Homepage";
 
 function App() {
-  return (<Router>
+  return (
     <div className="App">
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container">
@@ -35,7 +34,7 @@ function App() {
           </Switch>
         </div>
       </div>
-    </div></Router>
+    </div>
   );
 }
 
